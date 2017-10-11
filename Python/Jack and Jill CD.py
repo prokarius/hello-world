@@ -23,8 +23,8 @@ def code (N):
             jillcount += 1
         else:
             jackcount += 1
-    print cd
-    
+    print c
+
 N = raw_input ()
 
 while True:

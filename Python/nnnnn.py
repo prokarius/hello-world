@@ -72,6 +72,7 @@ else:
     code(q)
 
 """
+"""
 
 ### SLIGHTLY BETTER NAIVE SOLUTION ###
 
@@ -93,3 +94,51 @@ else:
         print q
     else:
         code(P)
+
+"""
+"""
+
+### CURRENT SOLUTION ###
+
+
+import math
+
+def cod ():
+    n = int(input())
+	if n == 0:
+	    return 0
+	d = math.log10(n)
+	if d < 1:
+		return n
+	d = int(d) + 1
+	c = 0
+	while c < 8:
+	    if n % (d-c) == 0:
+	        return n//(d-c)
+			break
+		c += 1
+print (cod())
+
+
+"""
+
+n = list((raw_input()))
+if len (n) == 1:
+	print n[0]
+else:
+	for i in range(len(n), len(n)-8, -1):
+		print i
+		curr = 0
+		not_zero = -1
+		y = list (n)
+		for j in range(len(n)):
+			curr = curr * 10 + int(n[j])
+			y[j] = str(curr/i)
+			if y[j] !='0' and not_zero < 0:
+				not_zero = j
+			curr = curr%i
+		if curr == 0 and len(n) - not_zero == i:
+			print ("".join(y[not_zero:]))
+			break
+
+

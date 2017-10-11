@@ -21,7 +21,7 @@ def recursion (number):
         for i in range ((number - leftovers)%1000, (number)%1000):
             if i % 10 != 4:
                 threedigits *= (i+1)
-            threedigits = threedigits % 1000
+                threedigits = threedigits % 1000
         return (threedigits * recursion(fivefacts)) % 1000
 
 N = int(raw_input())

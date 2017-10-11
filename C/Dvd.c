@@ -11,12 +11,12 @@ int main(){
             int current;
             scanf("%d", &current);
             if (current == curnum){
-                curnum += 1;
+                ++curnum;
             }
-            counter -= 1;
+            --counter;
         }
         printf ("%d\n", numdvd - curnum+1);
-        numpass -= 1;
+        --numpass;
     }
     return 0;
 }
