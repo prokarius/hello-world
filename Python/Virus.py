@@ -62,7 +62,7 @@ def main ():
             return
     if i == x-start-1:
         end = y-i-1
-            
+
     print max(end - start,0)
 
 main ()
