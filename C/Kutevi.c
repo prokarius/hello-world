@@ -2,6 +2,9 @@
 
 int angles[360];
 
+// For each of the angles given, we just have to see where it ends up
+// Note that we can just simulate 360 rounds of the "dp" thing.
+// Hence our complexity is simply (360 * 360 * 10)
 int main(){
     angles[0] = 1;
     int i, j, k, K, N, given[10];

@@ -7,7 +7,7 @@ def fastExpo(n,m,p):
         n = (n*n) % p
     return r
 
-m=10**9+7
+m=10**4+7
 for i in range(input()):
     k = input()
     print (fastExpo(9, k-1, m) * 8) % m 

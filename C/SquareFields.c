@@ -9,8 +9,8 @@ int output, xcord[20], ycord[20], n, k, maxx[20], maxy[20], minx[20], miny[20]; 
 //num_boxes is the number of squares we already have
 //min_size is the current minimum size
 void calc(int num_point, int num_boxes, int min_size){
-    if (num_boxes > k || min_size >= output){   
-        //If we used too many boxes
+    if (num_boxes > k || min_size >= output){
+        //If we used too many boxes or
         //If the current size is too big
         return;
     }
@@ -46,8 +46,8 @@ void clean(){ //Reinitialise the global variables.
     int qq;
     output = 1000000;
     for (qq=0; qq<20; qq++){
-        maxx[qq] = maxy[qq] = xcord[qq] = ycord[qq] = 0; // 30 minutes wasted here
-        minx[qq] = miny[qq] = 65000; //2 hours for this step
+        maxx[qq] = maxy[qq] = xcord[qq] = ycord[qq] = 0;
+        minx[qq] = miny[qq] = 65000;
     }
 }
 
