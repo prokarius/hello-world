@@ -5,10 +5,13 @@ typedef struct pair{
     int r;
     int c;
     int w;
+    int prevr;
+    int prevc;
 } Pair;
 
 int dr[5] = {0, -1, 0, 1, 0}, house[6] = {1, 2, 3, 6, 7, 11};
 int pos[4], grid[402], APSP[402][402], prev[402][402];
+char map[402];
 Pair ghettoDeque [5000];
 int dequeH, dequeT, visited[402];
 
@@ -23,6 +26,22 @@ void pushfront (Pair x){
 
 Pair pop(){
     return ghettoDeque[dequeH++];
+}
+
+// Update of the map
+// end would be the index of the sps
+void burn(int house, int sp){
+    int curr = house;
+    while (curr != sp){
+        if (map[curr] == 'o'){
+            map[curr] = '.';
+        }
+        curr = prev[curr][sp];
+    }
+}
+
+void burnpt (int point){
+    if (map[point] == 'o') map[point] = '.';
 }
 
 int main(){
@@ -43,6 +62,7 @@ int main(){
                 if (ph == '#') grid[i*C + j] = -1;
                 else if (ph == 'o') grid[i*C + j] = 1;
                 else grid[i*C + j] = 0;
+                map[i*C + j] = ph;
             }
         }
 
@@ -68,8 +88,9 @@ int main(){
             // Create a node to stuff into our BFS queue. The staring point is
             // the point in question, and the weights of our nodes will be the
             // weights of all the snow, including the current square.
-            Pair x = {i/C, i%C, grid[i]};
+            Pair x = {i/C, i%C, grid[i], i/C, i%C};
             push(x);
+            prev[i][i] = i;
 
             // While we still have elements in our deque, BFS from there
             while (dequeH < dequeT){
@@ -84,6 +105,9 @@ int main(){
                 ++visited[currr*C + currc];
                 APSP[i][currr*C + currc] = w;
 
+                // Set the previous node to the previous node
+                prev[currr*C + currc][i] = x.prevr*C + x.prevc;
+
                 // For our 4 directions, calculate the stuff.
                 for (k = 0; k < 4; ++k){
                     int nextr = currr + dr[k];
@@ -95,10 +119,11 @@ int main(){
                     // Push to the front if the gridweight is 0, and to the back
                     // if the grid weight is 1.
                     if (nextr >= R || nextr < 0 || nextc < 0 || nextc >= C) continue;
+
                     if (visited[nextr*C + nextc]) continue;
                     int gridweight = grid[nextr*C + nextc];
                     if (gridweight == -1) continue;
-                    Pair y = {nextr, nextc, w+gridweight};
+                    Pair y = {nextr, nextc, w+gridweight, currr, currc};
                     if (gridweight) push(y);
                     else pushfront(y);
                 }
@@ -109,7 +134,7 @@ int main(){
         // Calculate the distance and store it as the best.
         // For each of the positions, ignore it if it's an obstacle.
         int h1, h2, h3, h4, sp1, sp2;
-        int bestsp1, bestsp2;
+        int bestsp1, bestsp2, bh1, bh2, bh3, bh4;
         for (sp1 = 0; sp1 < R*C; ++sp1){
             if (grid[sp1] == -1) continue;
             for (sp2 = 0 ; sp2 < R*C; ++sp2){
@@ -123,23 +148,48 @@ int main(){
                                APSP[h3][sp2] + APSP[h4][sp2] - 2*(grid[sp1] + grid[sp2]);
                     if (cost <= best){
                         best = MIN(best, cost);
+                        // Save the best steiner points
+                        // And which house connects to which steiner point
                         bestsp1 = sp1;
                         bestsp2 = sp2;
+                        bh1 = h1;
+                        bh2 = h2;
+                        bh3 = h3;
+                        bh4 = h4;
                     }
                 }
             }
         }
 
         // From here, we want to recover the path that we took
-        
+        // First find which house connects to which steiner point
 
-        printf ("%d\n", best);
+        // Then burn the paths
+        burn (bh1, bestsp1);
+        burn (bh2, bestsp1);
+        burn (bh3, bestsp2);
+        burn (bh4, bestsp2);
+
+        // Don't forget to burn the path between the two steiner points too
+        burn (bestsp1, bestsp2);
+        burnpt (bestsp2); // To burn the other dot too
+        burnpt (bestsp1); // For good measure
+
+        printf ("%d %d\n", C, R);
+        for (i=0; i<R; ++i){
+            for (j=0; j<C ; ++j){
+                printf ("%c", map[i*C+j]);
+            }
+            printf ("\n");
+        }
+        printf ("\n");
 
         // Reset everything
         for (i = 0; i<4; ++i) pos[i] = 0;
         for (i = 0; i<R*C; ++i) grid[i] = 0;
         scanf ("%d %d", &C, &R);
     }
+    printf ("0 0\n");
     return 0;
 }
 
@@ -286,5 +336,4 @@ int main(){
     }
     return 0;
 }
-
 */
