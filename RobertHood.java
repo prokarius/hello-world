@@ -15,26 +15,47 @@ class Point{
     public double dist(Point one){
         return Math.hypot(one.x - this.x, one.y - this.y);
     }
+
+    // Returns the direction of cross product of input, with respect to this;
+    // If this function is positive, the directions are counter clockwise.
+    public double counterclock(Point a, Point b){
+        return (a.x - this.x)*(b.y - this.y) - (a.y - this.y)*(b.x - this.x);
+    }
+
 }
 
 public class RobertHood{
-    ArrayList<Point> pointsList = new ArrayList<>();
+    static ArrayList<Point> pointsList = new ArrayList<>();
+    static ArrayList<Point> hull = new ArrayList<>();
     public static void main(String[] args){
         Scanner s = new Scanner(System.in);
 
         // Populate the points list with the input points
         int C = s.nextInt();
+        int lowy = 1005;
         for (int i=0; i<C; ++i){
-            Point newPoint = new Point (s.nextInt(), s.nextInt());
+            int x = s.nextInt();
+            int y = s.nextInt();
+            lowy = (lowy < y) ? (lowy) : (y);
+            Point newPoint = new Point (x, y);
             pointsList.add(newPoint);
         }
 
-        // Run a convex Hull algo
+        // Push the point with the lowest y value into the list
+        
 
+        // Run a convex Hull algo
+        // Using the lowest y value point, we sort by angle
+        Collections.sort(pointsList, (a, b) -> {
+                double hypotenuse = Math.hypot(a.x - low.x, a.y - low.y);
+                return Math.acos((a.x - low.x)/hypotenuse);
+        });
+
+        // Push lowest y value point into the hull
+        
 
 
         // Then do rotating calipers.
 
     }
-
 }
