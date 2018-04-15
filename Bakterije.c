@@ -44,7 +44,7 @@ long long bestans(){
     for (int i=1; i<anshead; ++i){
         best = MIN (best, ans[i]);
     }
-    return (long long) (best & 0x7FFFFFFFFFFFFFFF);
+    return (long long) (best & 0x7FFFFFFFFFFFFFFFLL);
 }
 
 // Returns the GCD of two int128 numbers
@@ -59,11 +59,34 @@ __int128 gcd(__int128 a, __int128 b){
     return a;
 }
 
+// Defines the global variables needed for the Extended Euclidean Algo
+__int128 Extendedx, Extendedy, Extendedd;
+
+void ExtendedEuclid(__int128 a, __int128 b){
+    if (b == 0){
+        Extendedx = 1;
+        Extendedy = 0;
+        Extendedd = a;
+        return;
+    }
+    ExtendedEuclid (b, a%b);
+    __int128 x1 = Extendedy;
+    __int128 y1 = Extendedx - (a/b) * Extendedy;
+    x = x1;
+    y = y1;
+}
+
 // Tries to find a y that satisfies both equations
 // Then takes that y, sets it as the constant
 // This will return a new equation.
 Equation diophantine(Equation first, Equation second){
     __int128 newa, newb;
+    __int128 gcdab = 1; // To store the gcd, if it exists
+    // Check if we are doing the first case:
+    if (first.a == -1 && first.b == -1){
+        return second;
+    }
+
     // We want to find the new a. There are two cases:
     // If either of the two is zero, then the new a would be zero too:
     if (first.a == 0 | second.a == 0){
@@ -71,6 +94,7 @@ Equation diophantine(Equation first, Equation second){
     }
 
     // Else we want to find the new a. That is just lcm of (first.a, second.a)
+    // Note that gcdab will be defined no matter if we come in this function or not
     else {
         __int128 gcdab = gcd(first.a, second.a);
         newa = (first.a / gcdab) * second.a;
@@ -84,7 +108,7 @@ Equation diophantine(Equation first, Equation second){
             newb = first.b;
         }
         else {
-            newb = -1;
+            newa = -1;
         }
 
     // Case 2: If first.a == 0 XOR second.a == 0
@@ -99,7 +123,7 @@ Equation diophantine(Equation first, Equation second){
             newb = first.b;
         }
         else {
-            newb = -1;
+            newa = -1;
         }
     }
 
@@ -110,7 +134,7 @@ Equation diophantine(Equation first, Equation second){
             newb = second.b;
         }
         else {
-            newb = -1;
+            newa = -1;
         }
     }
 
@@ -121,12 +145,25 @@ Equation diophantine(Equation first, Equation second){
     // y1 = b1 (mod a1)
     // y2 = b2 (mod a2)
     // Then we can use CRT to solve the simultaeous equations.
+    // a1x + b1 = a2x' + b2 => Cx + Dx' = E
     else {
-        
+        __int128 b1, b2, C, D, E;
+        b1 = first.b;
+        b2 = second.b;
+        C = first.a;
+        D = -second.a;
+        E = b2-b1;
 
+        // Check if this equation is solveable at all.
+        if (E % gcdab == 0){
+            newa = -1;
+        }
 
-
-
+        // If the above works, then we just gotta do Extended Euclidean
+        else {
+            ExtendedEuclid(C, D);
+            // TODO
+        }
     }
 
     // Now that everything is over, we can return the nextEquation!
@@ -304,7 +341,7 @@ int main(){
     // If we are here that means the bacteria all have touched the trap in some
     // way, at some point of time. Because we don't know K, we should
     // recursively solve the equations:
-    Equation placeholder = {0,0};
+    Equation placeholder = {-1,-1};
     recursiveSolve(0, b, placeholder);
 
     printf ("%lld\n", bestans());
