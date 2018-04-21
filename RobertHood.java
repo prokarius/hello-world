@@ -16,20 +16,10 @@ class Point implements Comparable<Point>{
         return Math.hypot(one.x - this.x, one.y - this.y);
     }
 
-    // Does the compare to function
-    public int compareTo(Point other){
-        if (this.x == other.x){
-            return this.y - other.y;
-        }
-        return this.x - other.x;
-    }
-
-    public int getX(){
-        return this.x;
-    }
-
-    public int getY(){
-        return this.y;
+    // Returns the direction of cross product of input, with respect to this;
+    // If this function is positive, the directions are counter clockwise.
+    public double counterclock(Point a, Point b){
+        return (a.x - this.x)*(b.y - this.y) - (a.y - this.y)*(b.x - this.x);
     }
 }
 
