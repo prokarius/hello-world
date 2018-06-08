@@ -72,8 +72,8 @@ void ExtendedEuclid(__int128 a, __int128 b){
     ExtendedEuclid (b, a%b);
     __int128 x1 = Extendedy;
     __int128 y1 = Extendedx - (a/b) * Extendedy;
-    x = x1;
-    y = y1;
+    Extendedx = x1;
+    Extendedy = y1;
 }
 
 // Tries to find a y that satisfies both equations
@@ -89,7 +89,7 @@ Equation diophantine(Equation first, Equation second){
 
     // We want to find the new a. There are two cases:
     // If either of the two is zero, then the new a would be zero too:
-    if (first.a == 0 | second.a == 0){
+    if ((first.a == 0) | (second.a == 0)){
         newa = 0;
     }
 
@@ -110,6 +110,7 @@ Equation diophantine(Equation first, Equation second){
         else {
             newa = -1;
         }
+    }
 
     // Case 2: If first.a == 0 XOR second.a == 0
     // Then we have to check if the the other equation fits the b of the first.

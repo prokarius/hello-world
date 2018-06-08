@@ -4,4 +4,4 @@ def k(a,b,m=0):
  while a<n:m+=k(a+1,b+x[a]);a+=1
  return m
 z=input;n=int(z());x=[*map(int,z().split())]
-print(sum(map(k,range(1,n+1),x)))
+print(k(0,0))

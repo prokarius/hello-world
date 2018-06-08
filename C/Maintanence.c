@@ -31,7 +31,8 @@ void push(long long mod, double amount, long long inv){
     multlist[listhead++] = new;
 }
 
-// Comparitor function for qsort
+// Comparator function for qsort
+// We want to sort by the values of each mult.
 int cmpfunc(const void * a, const void * b) {
     double value = ((Mult*)a)->amount - ((Mult*)b)->amount;
     return (0.0 < value) - (value < 0.0);
