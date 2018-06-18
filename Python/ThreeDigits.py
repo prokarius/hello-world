@@ -1,3 +1,79 @@
+"""
+Last 3 non zero digits of n factorial:
+
+So consider splitting the digits by sets of 10.
+So you have 10a, 10a +1, 10a + 2, ..., 10a + 9, where a is some integer.
+
+For example, 20! would be the product of all the digits from a = 0 and a = 1.
+
+Note that trailing 0s are given by 2 * 5. Note that in n!, there will be more 2s than 5s in the prime factorization.
+So that case, we can pair up numbers that are multiples of 5s with some numbers that are multiples of 2s. 
+
+Given this, we can split each group of 10 into 3 groups: the odd groups, the even groups and the multiples of 5 group:
+
+Odd = (10a +1)(10a +3)(10a + 7)(10a +9)
+Even = (10a +2)(10a +4)(10a + 6)(10a +8)
+Muls5 = (10a + 5)(10a + 10)
+
+Expand (10a +1)(10a + 3)(10a + 7)(10a + 9):
+= 189 + 3000a + 13000a^2 + 20000 a^3 + 10000 a^4
+= 189 + 1000(3a + 13a^2 + 20a^3 + 10a^4) 
+If you mod this bad boy by 1000 = 189.
+
+~~~
+
+Similarly, we can expand the even group to give:
+(10a +2)(10a +4)(10a + 6)(10a +8)
+= 384 + 4000a + 14000a^2 + 20000a^3 + 10000a^4 
+
+Now before we mod the above number, we need to pair up two factors of 2 with the numbers from the multiples of 5, so that they form a 10 and therefore can be removed:
+= (384 + 4000a + 14000a^2 + 20000a^3 + 10000a^4) / 4
+= 96 + 1000a + 3500a^2 + 5000a^3 + 2500a^4
+= 96 + 1000a + 1000a^2 + 5000a^3 + 2500a^2 + 2500a^4
+= 96 + 1000(a + a^2 + 5a^3) + 2500(a^2)(1+a^2)
+
+Now lets mod this bad boy by 1000; the second term gets removed.
+
+Look at the 3rd term: let a^2 = x.
+Then we have (2500)(x)(1+x) % 1000
+However, note that since x or 1+x will be even, we therefore know that (x)(1+x) will be even.
+Let (x)(1+x) = 2y, y will be an integer, because of the above.
+(2500)(x)(1+x) = 2500*2y = 5000y
+
+Therefore, the 3rd term is definitely a multiple of 1000, and therefore will get removed.
+Then the product of the even group % 1000 = 96.
+
+~~~
+
+Given this, we realize that no matter what a is, the last 3 nonzero digits of the group (excluding the numbers that are divisible by 5) is (96 * 189) % 1000 = 144.
+
+~~~
+
+Note that we haven't factored the numbers that were divisible by 5 yet. However, suppose we remove a factor of 5 from each of these numbers, we are left with the product of consecutive numbers:
+
+   5  *  10 *  15 *  20 *  25 * ... *  120 *  125
+= 5*1 * 5*2 * 5*3 * 5*4 * 5*5 * ... * 5*24 * 5*25
+= 5**25 * (1*2*3*4*...*25)
+= 5**25 * (25!)
+
+This is just the factorial function! We can therefore define the factorial function recursively!
+
+Now the question is what happens with all the factors of 5 that were pulled out.
+Since within each of the groups of 10, we have already paired each of the factors of 5 with a factor of 2 to form 10, we can ignore them.
+
+Therefore we can define a recursive formula:
+Last 3 non zero digits of n! = 144**(n/10) * (Last 3 non zero digits of (n/5)!) * leftovers
+
+leftovers refer to the left over numbers that do not form a full group of 10
+
+E.g. in 73!, we can form 7 groups of 10, and the left overs are then 71, 72 and 73.
+We can just manually multiply these numbers.
+
+~~~
+
+Now the problem is when to stop the recursion of n!. Well, why not stop when n is <= 10? We can easily compute the factorial for that, and that will form the base case.
+
+"""
 
 ### Three Digits ###
 
@@ -63,6 +139,7 @@ if Q > 7:
 else:
     numlist = [0, 1, 2, 6, 24, 12, 72, 504]
     print numlist [Q]
+
 """
 """
 
@@ -94,50 +171,6 @@ def recursion (number):
 N = int(raw_input())
 while N != 0:
     print recursion (N)
-    N = int(raw_input())
-
-
-"""
-"""
-### Odd And Even Zeros ###
-
-fives = [1]
-staring = 1
-steps = 13
-for i in range (1,steps):
-    staring = (staring*5 + (2*(5**(2*i - 1))))
-    fives.append(staring)
-
-def code (N):
-    fivedecomp = []
-    output = 0
-    parity = True
-    while N != 0:
-        fivedecomp.append(N%25)
-        N = N/25
-    length = len (fivedecomp)
-    for i in range(len(fivedecomp)):
-        tensfive = fivedecomp[length-i-1]/10
-        onesfive = fivedecomp[length-i-1]%10
-        output += tensfive * 10 * (25 ** (length-i-1))
-        if onesfive < 4:
-            print 1
-            if parity:
-                output += fives[length-i-1] * onesfive
-            else:
-                output += (25 ** (i+1) - fives[length-i-1]) * onesfive
-        else:
-            print 2
-            if parity:
-                output += fivedecomp[length-i-1] * 5
-                output += (25 ** (i +1) - fives[length-i-1]) * onesfive
-
-            parity = not parity
-    print output
-
-N = int(raw_input())
-while N != -1:
-    code (N+1)
     N = int(raw_input())
 
 

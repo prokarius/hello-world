@@ -1,5 +1,3 @@
-"""
-
 ### Mark Thng's Question ###
 
 N = input()
@@ -17,11 +15,3 @@ for i in range(N):
 ans = (N*x2*y2-N*xy*xy+2*xy*x*y-x2*y*y-y2*x*x)
 q = [".00",".25",".50",".75"]
 print str(ans/4)+q[ans%4]+"00"
-
-"""
-
-### More Triangles. Pytha mod n ###
-
-n = int (raw_input())
-
-#TODO:
