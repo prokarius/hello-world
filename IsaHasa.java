@@ -2,8 +2,15 @@ import java.util.*;
 import java.io.*;
 
 public class IsaHasa{
-    HashMap<String, Integer> mapping = new HashMap<>();
-    int counter = 0;
+    private static final int MAX_NODES = 500;
+
+    private HashMap<String, Integer> mapping;
+    private ArrayList<ArrayList<Integer>> adjlist;
+
+    public IsaHasa() {
+        mapping = new HashMap<>();
+        adjlist = new ArrayList<>();
+    }
 
     // Returns the Hash value of a given string
     private int getHash(String s){
@@ -11,13 +18,18 @@ public class IsaHasa{
             return mapping.get(s);
         }
         else {
-            mapping.put(s, counter);
-            counter++;
-            return counter-1;
+            int newHash = mapping.size();
+            mapping.put(s, newHash);
+            return newHash;
         }
     }
 
     public void run() throws IOException{
+        // Fill up the adjlist with ArrayLists
+        for (int i = 0; i < 2 * MAX_NODES; ++i){
+            adjlist.add(new ArrayList<>());
+        }
+
         // Scan in input
         BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
         String[] phlist = r.readLine().split(" ");
@@ -31,8 +43,10 @@ public class IsaHasa{
             int hashb = getHash(dlist[2]);
 
             // If it's a is-a relationship
+            // 
             if (dlist[1].equals("is-a")){
-                //pass
+                adjlist.get(hasha).add(hashb);
+                adjlist.get(hasha + MAX_NODES).add(hashb + MAX_NODES);
             }
             else { // has-a relationship
                 //pass;
