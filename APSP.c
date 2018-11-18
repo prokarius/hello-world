@@ -1,13 +1,14 @@
 #include<stdio.h>
+#define INF 1000000000
 
-int dist[1002][1002];
+int dist[150][150];
 
 // Do this when N is small
-void floyd(int n, int m, int q, int s){
+void floyd(int n, int m, int q){
     // Reset the distance array
     for (int i=0; i<n; ++i){
         for (int j=0; j<n; ++j){
-            dist[i][j] = 1000000000; //Infinity
+            dist[i][j] = INF; //Infinity
         }
     }
 
@@ -38,14 +39,16 @@ void floyd(int n, int m, int q, int s){
     for (int i=0; i<q; ++i){
         int start, end;
         scanf("%d %d", &start, &end);
-        printf("%d\n", 
+        printf("%d\n", dist[start][end]);
+    }
+}
 
 int main(){
-    int n, m, q, s;
-    scanf ("%d %d %d %d", &n, &m, &q, &s);
-    while (n != 0 && m != 0 && q != 0 && s != 0){
-        APSP(n, m, q, s);
-        scanf ("%d %d %d %d", &n, &m, &q, &s);
+    int n, m, q;
+    scanf ("%d %d %d", &n, &m, &q);
+    while (n != 0 && m != 0 && q != 0){
+        floyd(n, m, q);
+        scanf ("%d %d %d", &n, &m, &q);
     }
     return 0;
 }

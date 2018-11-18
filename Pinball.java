@@ -2,10 +2,10 @@ import java.io.*;
 import java.util.*;
 
 class Point implements Comparable<Point>{
-    long x;
-    long y;
+    int x;
+    int y;
 
-    public Point (long x, long y){
+    public Point (int x, int y){
         this.x = x;
         this.y = y;
     }
@@ -20,7 +20,6 @@ class Point implements Comparable<Point>{
     }
 }
 
-
 class Line implements Comparable<Line>{
     Point head;
     Point tail;
@@ -33,7 +32,7 @@ class Line implements Comparable<Line>{
 
     // Line comparator
     public int compareTo (Line other){
-
+        return  
     }
 }
 

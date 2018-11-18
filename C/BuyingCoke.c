@@ -45,7 +45,7 @@ void run(int numCokes, int n1, int n5, int n10){
             int newCount = currCount + 2*j;
             if (newern5 >= numCokesLeft){
                 int newestn1 = newern1 - 3*numCokesLeft;
-                if (newestn1 > 0){
+                if (newestn1 >= 0){
                     int newestCount = newCount + 4 * numCokesLeft;
                     out = MIN(out, newestCount);
                 }
@@ -56,7 +56,7 @@ void run(int numCokes, int n1, int n5, int n10){
             int newestCount = newCount + 4 * newern5;
             int newestn1 = newern1 - 3*newern5;
             int lastCokeLeft = numCokesLeft - newern5;
-            if (newestn1 > lastCokeLeft * 8){
+            if (newestn1 >= lastCokeLeft * 8){
                 newestCount += 8*lastCokeLeft;
                 out = MIN(out, newestCount);
             }
