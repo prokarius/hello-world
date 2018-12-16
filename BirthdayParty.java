@@ -8,6 +8,9 @@ public class BirthdayParty{
     private int[] distanceEstimate;
     private int[] distanceClosest;
 
+    // This is for finding articulation points
+    private int time = 0;
+
     // PRIVATE Constructor so that I can set up everything one shot
     private BirthdayParty(int vertices, int edges){
         numVertices = vertices;
@@ -32,7 +35,7 @@ public class BirthdayParty{
     }
 
     // This is so that we can do dfs downwards
-    private void dfs(){
+    private void dfs(int node){
         
 
     }
@@ -40,8 +43,10 @@ public class BirthdayParty{
     // Run the main solver!
     private void run(BufferedReader r) throws IOException{
         // Pick an arbitrary node to start DFSing
-        // Lets up pick node 0.
-        dfs();
+        // Lets pick node 0.
+        dfs(0);
+
+        // Check for each node whether the time of discovery is later
     }
 
 
@@ -53,7 +58,7 @@ public class BirthdayParty{
         int edges = Integer.parseInt(dlist[1]);
 
         // Guaranteed >1 vertex
-        while (vertices == 0){
+        while (vertices != 0){
             BirthdayParty solution = new BirthdayParty(vertices, edges);
 
             // Input the array
