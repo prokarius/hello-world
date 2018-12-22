@@ -5,7 +5,6 @@ def code(N):
     output += (comb [2] - comb [1] + 40)%40
     output += (comb [2] - comb [3] + 40)%40
 
-    
     print output*9
 
 N = raw_input()

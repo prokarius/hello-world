@@ -12,7 +12,7 @@ def zero (Q):
         return (zerocount (Q)) + zero (Q-1)
     else:
         return 10*zero(Q/10) + (Q/10)
-    
+
 def code (N):
     if N == "0 0":
         print 1

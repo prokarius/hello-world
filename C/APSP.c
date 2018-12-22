@@ -33,7 +33,7 @@ void floyd(int n, int m, int q){
 
                 // "If there are negative edges, ensure that INF + w is still INF."
                 // Wisest words spoken on 17th Dec 2018, 12:22:42 AM
-                if (dist[i][k] == INF || dist[k][j] == INF) continue;
+                if ((dist[i][k] == INF) || (dist[k][j] == INF)) continue;
 
                 if (dist[i][j] > dist[i][k] + dist[k][j]){
                     dist[i][j] = dist[i][k] + dist[k][j];
@@ -56,7 +56,7 @@ void floyd(int n, int m, int q){
                 if (dist[k][k] == 0) continue;
 
                 // If we can't go from start to k, or k to end.
-                if (dist[i][k] == INF || dist[k][j] == INF) continue;
+                if ((dist[i][k] == INF) || (dist[k][j] == INF)) continue;
 
                 // Yes we can go from the start to the end through node k.
                 dist[i][j] = -INF;
@@ -84,7 +84,7 @@ void floyd(int n, int m, int q){
 int main(){
     int n, m, q;
     scanf ("%d %d %d", &n, &m, &q);
-    while (n != 0 && m != 0 && q != 0){
+    while (n != 0 && q != 0){
         floyd(n, m, q);
         printf("\n");
         scanf ("%d %d %d", &n, &m, &q);

@@ -5,7 +5,7 @@ def check (N, num, i):
         newnum += test%10
         test /= 10
     return num == newnum
-    
+
 def code (N):
     num = 0
     number = N

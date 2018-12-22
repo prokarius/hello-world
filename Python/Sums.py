@@ -32,7 +32,7 @@ def code(N):
     for i in range(oddnum):
         outputstr += str(number) + " + "
         number += 1
-    return outputstr[:-3] 
+    return outputstr[:-3]
 
 numtest = int(raw_input())
 while numtest > 0:

@@ -7,7 +7,7 @@ So you have 10a, 10a +1, 10a + 2, ..., 10a + 9, where a is some integer.
 For example, 20! would be the product of all the digits from a = 0 and a = 1.
 
 Note that trailing 0s are given by 2 * 5. Note that in n!, there will be more 2s than 5s in the prime factorization.
-So that case, we can pair up numbers that are multiples of 5s with some numbers that are multiples of 2s. 
+So that case, we can pair up numbers that are multiples of 5s with some numbers that are multiples of 2s.
 
 Given this, we can split each group of 10 into 3 groups: the odd groups, the even groups and the multiples of 5 group:
 
@@ -17,14 +17,14 @@ Muls5 = (10a + 5)(10a + 10)
 
 Expand (10a +1)(10a + 3)(10a + 7)(10a + 9):
 = 189 + 3000a + 13000a^2 + 20000 a^3 + 10000 a^4
-= 189 + 1000(3a + 13a^2 + 20a^3 + 10a^4) 
+= 189 + 1000(3a + 13a^2 + 20a^3 + 10a^4)
 If you mod this bad boy by 1000 = 189.
 
 ~~~
 
 Similarly, we can expand the even group to give:
 (10a +2)(10a +4)(10a + 6)(10a +8)
-= 384 + 4000a + 14000a^2 + 20000a^3 + 10000a^4 
+= 384 + 4000a + 14000a^2 + 20000a^3 + 10000a^4
 
 Now before we mod the above number, we need to pair up two factors of 2 with the numbers from the multiples of 5, so that they form a 10 and therefore can be removed:
 = (384 + 4000a + 14000a^2 + 20000a^3 + 10000a^4) / 4
@@ -74,8 +74,6 @@ We can just manually multiply these numbers.
 Now the problem is when to stop the recursion of n!. Well, why not stop when n is <= 10? We can easily compute the factorial for that, and that will form the base case.
 
 """
-
-### Three Digits ###
 
 def recursion (number):
     if number <= 10:
@@ -139,39 +137,5 @@ if Q > 7:
 else:
     numlist = [0, 1, 2, 6, 24, 12, 72, 504]
     print numlist [Q]
-
-"""
-"""
-
-### Low Order Zeros ###
-
-def recursion (number):
-    if number <= 10:
-        lastthreedigits = [0, 1, 2, 6, 4, 2, 2, 4, 2, 8, 8]
-        return lastthreedigits [number]
-    else:
-        leftovers = number % 10
-        a = (number/10)-1
-        fivefacts = number/5
-        threedigits = 1
-        while a != 0:
-            threedigits *= 4
-            threedigits = threedigits %10
-            a -= 1
-        if leftovers > 4:
-            threedigits *= 72
-        else:
-            threedigits *= 144
-        for i in range ((number - leftovers)%10, (number)%10):
-            if i % 10 != 4:
-                threedigits *= (i+1)
-            threedigits = threedigits % 10
-        return (threedigits * recursion(fivefacts)) % 10
-    
-N = int(raw_input())
-while N != 0:
-    print recursion (N)
-    N = int(raw_input())
-
 
 """

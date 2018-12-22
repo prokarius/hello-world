@@ -6,7 +6,7 @@ closetime = inputdata [1]
 while counter < closetime:
     somelist.append([])
     counter += 1
-    
+
 counter = 0
 
 while counter < inputdata [0]:

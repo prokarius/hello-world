@@ -29,32 +29,6 @@ def code(lst):
             i += 1
     return 0
 
-"""
-
-N = int(raw_input())
-phlist = []
-clist = []
-for i in range(N):
-    phlist.append(0)
-for i in range(N):
-    clist.append (list(phlist))
-
-flag = True
-q = 0
-while (q<N):
-    R = raw_input()
-    crd = [int (x) for x in R.split(' ')]
-    if code (crd) == 1:
-        flag = False
-        break
-    q += 1
-if flag == True:
-    print "CORRECT"
-else:
-    print "INCORRECT"
-
-"""
-
 N = 8
 phlist = []
 clist = []
@@ -62,7 +36,6 @@ for i in range(N):
     phlist.append(0)
 for i in range(N):
     clist.append (list(phlist))
-
 
 queens = 0
 count = 0

@@ -11,7 +11,7 @@ def mycode (N1, N2):
     print "Case " + str(casenum) + ":"
     print string1
     print string2
-    
+
 N1 = sys.stdin.readline()
 casenum = 1
 while N1:
