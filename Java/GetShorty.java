@@ -19,7 +19,7 @@ class Edge implements Comparable<Edge>{
     }
 
     public int compareTo(Edge other){
-        return ((this.weight > other.weight) ? 1 : 0) - ((other.weight > this.weight) ? 1 : 0);
+        return ((this.weight < other.weight) ? 1 : 0) - ((other.weight < this.weight) ? 1 : 0);
     }
 }
 
@@ -55,6 +55,9 @@ public class GetShorty{
 
         while (!pqueue.isEmpty()){
             Edge curr = pqueue.poll();
+            if (curr.getWeight() <= distance[N-1]){
+                break;
+            }
             if (curr.getWeight() < distance[curr.getEnd()]){
                 continue;
             }
