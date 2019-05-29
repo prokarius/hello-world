@@ -89,16 +89,15 @@ public class FlightPlanning{
     // Yes, more code repetition, STFU.
     private int getMidpoint(int node, int distance){
         LinkedList<Pair> queue = new LinkedList<>();
-        Pair furthest = new Pair(node, distance);
+        Pair furthest = new Pair(node, 0);
         queue.addFirst(furthest);
 
         boolean[] visited = new boolean[n+1];
+        int[] parent = new int[n+1];
         visited[node] = true;
 
         while(!queue.isEmpty()){
             furthest = queue.pollLast();
-
-            if (furthest.getY() == 0) return furthest.getX();
 
             for (Edge edge : adjlist.get(furthest.getX())){
                 if (edge.equals(blacklistedEdge)) continue;
@@ -107,11 +106,24 @@ public class FlightPlanning{
                 if (visited[neighbour]) continue;
 
                 visited[neighbour] = true;
-                queue.addFirst(new Pair(neighbour, furthest.getY() - 1));
+                parent[neighbour] = furthest.getX();
+                queue.addFirst(new Pair(neighbour, furthest.getY() + 1));
             }
         }
 
-        return 0; // Because Java
+        ArrayList<Integer> path = new ArrayList<>();
+
+        // Now we are going to find the path from furthest to the end
+        int endNode = furthest.getX();
+
+        while (endNode != node){
+            path.add(endNode);
+            endNode = parent[endNode];
+        }
+
+        path.add(node);
+
+        return path.get(distance);
     }
 
     // Precondition: node is an edge node
@@ -204,12 +216,6 @@ public class FlightPlanning{
             if (bestDiameter < best){
                 best = bestDiameter;
                 removedEdge = curr;
-
-                System.out.println(diameter1);
-                System.out.println(furthest1);
-                System.out.println(diameter2);
-                System.out.println(furthest2);
-                System.out.println(bestDiameter);
 
                 int start = getMidpoint(furthest1, radius1);
                 int end = getMidpoint(furthest2, radius2);

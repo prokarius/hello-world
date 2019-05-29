@@ -31,7 +31,7 @@ int dfs(int node){
     if (visited[node]) return 0;
     visited[node] = 1;
 
-
+    for (int i = 0; i < n; ++i){
 
 
 }
