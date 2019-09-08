@@ -32,6 +32,6 @@ int main(){
     scanf("%d", &n);
     while (n != 0){
         solve(n);
-        scanf("%d". &n);
+        scanf("%d", &n);
     }
 }
